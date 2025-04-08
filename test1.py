@@ -1,12 +1,16 @@
-from flask import Flask , render_template ,request, jsonify
+from flask import Flask , render_template ,request, jsonify, redirect, url_for, make_response
 # from mysql.connector import pooling
 from dbutils.pooled_db import PooledDB
 import pymysql
- 
+import jwt
+
+secret_key = "1234"
+
+#db pool 생성
 pool = PooledDB(
     creator = pymysql,
-    maxconnections = 10,
-    mincached = 5 ,
+    maxconnections = 20,
+    mincached = 10 ,
     blocking = True,
     host = "127.0.0.1",
     user = "root",
@@ -46,6 +50,7 @@ def signups():
         print(pid + " " + pword + " " + page + " " + pname)
         cursor.execute("insert into users values(%s ,%s,%s ,%s)", (pid, pname, page, pword) )
         conn.commit()
+        conn.close()
         return "success to add te user"
     except Exception as e :
         return "error" 
@@ -53,6 +58,10 @@ def signups():
 @app.route("/login", methods = ['GET'])
 def login() : 
     return render_template("login.html")
+
+@app.route("/index/<username>", methods = ['GET'])
+def index1(username) : 
+    return "Hello " + username
 
 @app.route("/process/login", methods = ['POST'])
 def logins() : 
@@ -67,7 +76,14 @@ def logins() :
     print(len(ls))
     if len(ls) > 0 :
         if ls[0][3] == pword :
-            return "login success"
+            payload = {
+                "id" : pid
+            }
+            token = jwt.encode(payload, secret_key, algorithm="HS256")
+            res = make_response("Login Success")
+            res.set_cookie('token', token)
+            return res
+            # return redirect(url_for('index1', username = pid))
         else :
             return "Wrong Password"
     else :
