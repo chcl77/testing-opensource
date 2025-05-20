@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.5/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-SgOJa3DmI69IUzQ2PVdRZhwQ+dy64/BUtbMJw1MZ8t5HZApcHrRKUc4W0kG879m7" crossorigin="anonymous">
+    <title>Document</title>
+</head>
+<body>
+
+    <form method="POST" action="/process/login" id = "loginform">
+        <table>
+            <tr>
+                <td><label for="">ID</label></td>
+                <td><input type="text" name="id" id=""></td>
+            </tr>
+            <tr>
+                <td><label for="">Password</label></td>
+                <td><input type="text" name="password" id=""></td>
+            </tr>
+            <tr>
+                <td><button type = "submit">submit</button></td>
+            </tr>
+            
+        </table>
+    </form>
+
+    <script>
+        document.getElementById('loginform').addEventListener('submit', (event) => {
+            let flag = true ;
+            const id = document.getElementsByName('id')[0].value
+            const password = document.getElementsByName('password')[0].value
+            if(!id){
+                flag = false
+                alert("아이디를 입력하세요")
+            }
+            if(!password){
+                flag = false
+                alert("비밀번호를 입력하세요")
+            }
+            if(flag == false){
+                event.preventDefault()
+            }
+        })
+    </script>
+</body>
+</html>

@@ -1,0 +1,47 @@
+.container{
+    width : 500px ;
+    height : 700px ;
+    background-color: white;
+    padding : 30px ;
+    border-radius: 10px;
+    position : absolute;
+    top : 50%;
+    left : 50%;
+    transform : translate(-50%, -50%);
+    box-shadow: 5px 5px 5px 5px rgba(0,0,0,0.4);
+}
+
+.id_box{
+    width :400px;
+
+}
+#inp{
+    margin-top: 30px;
+}
+
+input{
+    width: 300px;
+    border: none;
+    border-bottom: 1px solid grey;
+    height: 30px;
+}
+input:focus{
+    outline: none;
+    border-bottom: 2px solid #0068FF; 
+}
+
+h2{
+    width: 466px;
+    height: 94px;
+    left: 725px;
+    top: 132px;
+
+    font-family: 'Noto Sans CJK KR';
+    font-style: normal;
+    font-weight: 700;
+    font-size: 32px;
+    line-height: 47px;
+
+    color: #0068FF;
+    justify-content: space-evenly;
+}

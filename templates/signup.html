@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <form id = "Signform" method = "POST" action="/process/adduser">
+        <table>
+            <tr>
+                <td><label for="">ID</label></td>
+                <td><input type="text" name="id" ></td>
+                <td><button type = "button" id = "chk">Double Check</button></td>
+            </tr>
+            <tr>
+                <td><label for="">Name</label></td>
+                <td><input type="text" name="name" ></td>
+                
+            </tr>
+            <tr>
+                <td><label for="">Age</label></td>
+                <td><input type="text" name="age" ></td>
+            </tr>
+            <tr>
+                <td><label for="">Password</label></td>
+                <td><input type="text" name="pword" ></td>
+            </tr>
+            <tr>
+                <td><label for="">Password Confirm</label></td>
+                <td><input type="text" name="pword2" ></td>
+            </tr>
+            <tr>
+                <td><button type = "submit" >submit</button></td>
+            </tr>
+        </table>
+    </form>
+
+    <script>
+        let chk = false // 아이디 중복 확인 flag
+        // 입력창 빈칸 및 아이디 중복 여부 확인
+        document.getElementById("Signform").addEventListener('submit', (event) => {
+            let flag = true 
+            const id = document.getElementsByName('id')[0].value
+            const name = document.getElementsByName('name')[0].value
+            const age = document.getElementsByName('age')[0].value
+            const password = document.getElementsByName('pword')[0].value
+            const password2 = document.getElementsByName('pword2')[0].value
+
+            if(!Number.isInteger(Number(age))){
+                alert("enter the number on age")
+                flag = false
+            }
+
+            if(!id){
+                alert("Enter the id")
+                flag = false
+            }
+            if(!name){
+                alert("Enter the name")
+                flag = false
+            }
+            if(!age){
+                alert("Enter the age")
+                flag = false
+            }
+            if(!password){
+                alert("Enter the password")
+                flag = false
+            }
+            if(password != password2){
+                alert("Check your password")
+                flag = false
+            }
+            if(chk == false){
+                alert("Double Check your ID")
+            }
+
+            if(flag == false || chk == false){
+                event.preventDefault()
+            }
+        })
+
+
+        // 아이디 중복 여부 확인 
+        document.querySelector('#chk').addEventListener('click', async() => {
+            const check_id = document.getElementsByName("id")[0].value
+            const response = await fetch("/getdb" , {
+                method : "POST",
+                headers : {
+                    'Content-Type' : 'application/json'
+                },
+                body : JSON.stringify({id : check_id})
+
+            })
+            if(response.ok){
+                const res = await response.json()
+                alert(res['chk'])
+                if(res['chk'] == "ok"){
+                    chk = true
+                }
+                
+            }
+            else{
+                alert("Failed to connecting to server")
+            }
+        })
+    </script>
+</body>
+</html>
